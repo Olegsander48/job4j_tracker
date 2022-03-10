@@ -9,9 +9,6 @@ public class Engineer extends Profession {
         this.intelligence = research;
     }
 
-    public Engineer() {
-    }
-
     public Product create(Material material) {
         return null;
     }

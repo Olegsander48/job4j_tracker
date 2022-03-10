@@ -9,9 +9,6 @@ public class Doctor extends Profession {
         this.experience = experience;
     }
 
-    public Doctor() {
-    }
-
     public Diagnosis heal(Pacient pacient) {
         return null;
     }
