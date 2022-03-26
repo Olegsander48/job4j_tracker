@@ -6,11 +6,12 @@ public class ElementNotFoundException extends Exception {
         for (int i = 0; i < value.length; i++) {
             if (key.equals(value[i])) {
                 rsl = i;
-            } else {
-                throw new ElementNotFoundException();
+                break;
             }
-            /*Search element not found in string array*/
         }
+        if (rsl == -1) {
+            throw new ElementNotFoundException();
+        } /*Search element not found in string array*/
         return rsl;
     }
 
