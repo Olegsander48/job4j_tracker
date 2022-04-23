@@ -7,7 +7,6 @@ import java.util.Map;
 
 /**
  * Класс описывает работу с банковскими счетами
- * по принципу FIFO (first in - first out)
  * @author PRIGODICH ALEKSANDR
  * @version 1.0
  */
