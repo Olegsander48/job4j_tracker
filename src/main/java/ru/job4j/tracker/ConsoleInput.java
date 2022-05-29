@@ -10,7 +10,6 @@ public class ConsoleInput implements Input {
         System.out.print(question);
         return scanner.nextLine();
     }
-
     @Override
     public int askInt(String question) {
         return Integer.parseInt(askStr(question));
