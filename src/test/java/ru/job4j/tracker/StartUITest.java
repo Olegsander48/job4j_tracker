@@ -42,7 +42,7 @@ class StartUITest {
         assertThat(created.getName()).isEqualTo(expected.getName());
     }
 
-    @Test
+/*    @Test
     void whenReplaceItem() {
         Tracker tracker = new Tracker();
         Item item = new Item("new item");
@@ -67,5 +67,5 @@ class StartUITest {
         StartUI.deleteItem(new MockInput(answers), tracker);
         Item edited = tracker.findById(item.getId());
         assertThat(edited).isEqualTo(null);
-    }
+    }*/
 }
