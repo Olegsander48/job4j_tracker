@@ -38,21 +38,21 @@ public class PasswordValidator {
             boolean condition = Character.isUpperCase(symbol);
             if (condition) {
                 hasUpCase = true;
-                continue;
             }
             condition = Character.isLowerCase(symbol);
             if (condition) {
                 hasLowCase = true;
-                continue;
             }
             condition = Character.isDigit(symbol);
             if (condition) {
                 hasDigit = true;
-                continue;
             }
             condition = !Character.isDigit(symbol) && !Character.isLetter(symbol);
             if (condition) {
                 hasSpecial = true;
+            }
+            if (hasUpCase && hasLowCase && hasDigit && hasSpecial) {
+                break;
             }
         }
         if (!hasUpCase) {
