@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+/**
+ * Class for logging data
+ */
 public final class Log4File {
     private static Log4File instance = null;
     private String[] messages = new String[1000];
