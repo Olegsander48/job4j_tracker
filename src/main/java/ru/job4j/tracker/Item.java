@@ -59,7 +59,7 @@ public class Item implements Comparable<Item> {
             return false;
         }
         Item item = (Item) o;
-        return id == item.id && Objects.equals(name, item.name) && Objects.equals(created, item.created);
+        return id == item.id && Objects.equals(name, item.name);
     }
 
     @Override
@@ -69,6 +69,7 @@ public class Item implements Comparable<Item> {
 
     @Override
     public int compareTo(Item o) {
-        return this.compareTo(o);
+        return this.name.compareTo(o.getName());
+
     }
 }
