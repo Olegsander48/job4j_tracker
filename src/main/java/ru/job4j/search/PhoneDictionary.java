@@ -1,6 +1,7 @@
 package ru.job4j.search;
 
 import java.util.ArrayList;
+import java.util.function.Predicate;
 
 public class PhoneDictionary {
     private ArrayList<Person> persons = new ArrayList<>();
@@ -16,12 +17,18 @@ public class PhoneDictionary {
      * @return Список пользователей, которые прошли проверку.
      */
     public ArrayList<Person> find(String key) {
+        Predicate<Person> phonePredicate = person -> person.getPhone().contains(key);
+        Predicate<Person> namePredicate = person -> person.getName().contains(key);
+        Predicate<Person> addressPredicate = person -> person.getAddress().contains(key);
+        Predicate<Person> surnamePredicate = person -> person.getSurname().contains(key);
+        Predicate<Person> combine = phonePredicate
+                                    .or(namePredicate)
+                                    .or(addressPredicate)
+                                    .or(surnamePredicate);
+
         ArrayList<Person> result = new ArrayList<>();
         for (Person person : persons) {
-            if (person.getPhone().contains(key)
-                    || person.getName().contains(key)
-                    || person.getAddress().contains(key)
-                    || person.getSurname().contains(key))  {
+            if (combine.test(person)) {
                 result.add(person);
             }
         }
