@@ -37,7 +37,7 @@ public class AnalyzeByMap {
         int count = 0;
         for (Pupil student : pupils) {
             for (Subject subject : student.subjects()) {
-                map.put(subject.name(), map.getOrDefault(subject.name(), 0) + subject.score());
+                map.merge(subject.name(), subject.score(), Integer::sum);
             }
             count++;
         }
@@ -66,7 +66,7 @@ public class AnalyzeByMap {
         List<Label> labels = new ArrayList<>();
         for (Pupil student : pupils) {
             for (Subject subject : student.subjects()) {
-                map.put(subject.name(), map.getOrDefault(subject.name(), 0) + subject.score());
+                map.merge(subject.name(), subject.score(), Integer::sum);
             }
         }
         for (Map.Entry<String, Integer> entry : map.entrySet()) {
