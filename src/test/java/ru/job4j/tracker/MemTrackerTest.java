@@ -6,103 +6,103 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TrackerTest {
+public class MemTrackerTest {
     @Test
     public void whenAddNewItemThenTrackerHasSameItem() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item item = new Item();
         item.setName("test1");
-        tracker.add(item);
-        Item result = tracker.findById(item.getId());
+        store.add(item);
+        Item result = store.findById(item.getId());
         assertThat(result.getName()).isEqualTo(item.getName());
     }
 
     @Test
     public void whenTestFindById() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item bug = new Item("Bug");
-        Item item = tracker.add(bug);
-        Item result = tracker.findById(item.getId());
+        Item item = store.add(bug);
+        Item result = store.findById(item.getId());
         assertThat(result.getName()).isEqualTo(item.getName());
     }
 
     @Test
     public void whenTestFindAll() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        Item result = tracker.findAll().get(0);
+        store.add(first);
+        store.add(second);
+        Item result = store.findAll().get(0);
         assertThat(result.getName()).isEqualTo(first.getName());
     }
 
     @Test
     public void whenTestFindByNameCheckArrayLength() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        tracker.add(new Item("First"));
-        tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(first.getName());
+        store.add(first);
+        store.add(second);
+        store.add(new Item("First"));
+        store.add(new Item("Second"));
+        store.add(new Item("First"));
+        List<Item> result = store.findByName(first.getName());
         assertThat(result.size()).isEqualTo(3);
     }
 
     @Test
     public void whenTestFindByNameCheckSecondItemName() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item first = new Item("First");
         Item second = new Item("Second");
-        tracker.add(first);
-        tracker.add(second);
-        tracker.add(new Item("First"));
-        tracker.add(new Item("Second"));
-        tracker.add(new Item("First"));
-        List<Item> result = tracker.findByName(second.getName());
+        store.add(first);
+        store.add(second);
+        store.add(new Item("First"));
+        store.add(new Item("Second"));
+        store.add(new Item("First"));
+        List<Item> result = store.findByName(second.getName());
         assertThat(result.get(1).getName()).isEqualTo(second.getName());
     }
 
     @Test
     public void whenReplaceItemIsSuccessful() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item item = new Item("Bug");
-        tracker.add(item);
+        store.add(item);
         int id = item.getId();
         Item updateItem = new Item("Bug with description");
-        tracker.replace(id, updateItem);
-        assertThat(tracker.findById(id).getName()).isEqualTo("Bug with description");
+        store.replace(id, updateItem);
+        assertThat(store.findById(id).getName()).isEqualTo("Bug with description");
     }
 
     @Test
     public void whenReplaceItemIsNotSuccessful() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item item = new Item("Bug");
-        tracker.add(item);
+        store.add(item);
         Item updateItem = new Item("Bug with description");
-        boolean result = tracker.replace(1000, updateItem);
-        assertThat(tracker.findById(item.getId()).getName()).isEqualTo("Bug");
+        boolean result = store.replace(1000, updateItem);
+        assertThat(store.findById(item.getId()).getName()).isEqualTo("Bug");
         assertThat(result).isFalse();
     }
 
     @Test
     public void whenDeleteItemIsSuccessful() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item item = new Item("Bug");
-        tracker.add(item);
+        store.add(item);
         int id = item.getId();
-        tracker.delete(id);
-        assertThat(tracker.findById(id)).isNull();
+        store.delete(id);
+        assertThat(store.findById(id)).isNull();
     }
 
     @Test
     public void whenDeleteItemIsNotSuccessful() {
-        Tracker tracker = new Tracker();
+        Store store = new MemTracker();
         Item item = new Item("Bug");
-        tracker.add(item);
-        tracker.delete(1000);
-        assertThat(tracker.findById(item.getId()).getName()).isEqualTo("Bug");
+        store.add(item);
+        store.delete(1000);
+        assertThat(store.findById(item.getId()).getName()).isEqualTo("Bug");
     }
 }
