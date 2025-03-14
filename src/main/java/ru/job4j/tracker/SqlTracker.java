@@ -97,27 +97,34 @@ public class SqlTracker implements Store {
 
     @Override
     public List<Item> findAll() {
-        List<Item> items = null;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT * FROM items")) {
-            items = writeToList(preparedStatement);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        List<Item> itemList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement("select * from items")) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    itemList.add(createItemFromResultSet(resultSet));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return items;
+        return itemList;
     }
 
     @Override
     public List<Item> findByName(String key) {
-        List<Item> items = null;
+        List<Item> itemList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT * FROM items WHERE name = (?)")) {
             preparedStatement.setString(1, key);
-            items = writeToList(preparedStatement);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    itemList.add(createItemFromResultSet(resultSet));
+                }
+            }
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        return items;
+        return itemList;
     }
 
     @Override
@@ -126,9 +133,10 @@ public class SqlTracker implements Store {
         try (PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT * FROM items WHERE id = (?)")) {
             preparedStatement.setInt(1, id);
-            List<Item> items = writeToList(preparedStatement);
-            if (!items.isEmpty()) {
-                result = items.get(0);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    result = createItemFromResultSet(resultSet);
+                }
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -136,26 +144,17 @@ public class SqlTracker implements Store {
         return result;
     }
 
-    /**
-     * This method get values from statement to ResultSet and insert them to List<Item>
-     *
-     * @param preparedStatement from we get ResultSet
-     * @return list of Items
-     */
-    private List<Item> writeToList(PreparedStatement preparedStatement) {
-        List<Item> items = new ArrayList<>();
+    private Item createItemFromResultSet(ResultSet resultSet) {
+        Item item = null;
         try {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                items.add(new Item(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getTimestamp("created").toLocalDateTime()
-                ));
-            }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+            item = new Item(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getTimestamp("created").toLocalDateTime().withNano(0)
+            );
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return items;
+        return item;
     }
 }
