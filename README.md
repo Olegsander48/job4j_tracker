@@ -2,7 +2,7 @@
 
 ## О проекте
 
-[![Java CI with Maven](https://github.com/Olegsander48/job4j_tracker/actions/workflows/maven.yml/badge.svg)](https://github.com/Olegsander48/job4j_grabber/actions/workflows/maven.yml)
+[![Java CI with Maven](https://github.com/Olegsander48/job4j_tracker/actions/workflows/maven.yml/badge.svg)](https://github.com/Olegsander48/job4j_tracker/actions/workflows/maven.yml)
 
 Этот проект - консольное приложение. Пользователю отображается меню с возможностями программы.
 
