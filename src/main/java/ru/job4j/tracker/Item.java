@@ -8,6 +8,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import ru.job4j.toone.User;
 
 @Data
 @NoArgsConstructor
@@ -32,6 +36,12 @@ public class Item implements Comparable<Item> {
         this.name = name;
     }
 
+    public Item(int id, String name, LocalDateTime created) {
+        this.id = id;
+        this.name = name;
+        this.created = created;
+    }
+
     @Override
     public int compareTo(Item o) {
         return this.name.compareTo(o.getName());
@@ -44,4 +54,12 @@ public class Item implements Comparable<Item> {
                 + '\'' + ", created=" + created.format(FORMATTER)
                 + '}';
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "participates",
+            joinColumns = {@JoinColumn(name = "item_id")},
+            inverseJoinColumns = { @JoinColumn(name = "user_id")}
+    )
+    private List<User> participates = new ArrayList<>();
 }
